@@ -1,0 +1,1 @@
+ALTER TABLE "authoring_links" ADD COLUMN "submitted_at" timestamp with time zone;

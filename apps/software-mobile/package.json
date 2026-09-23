@@ -1,0 +1,52 @@
+{
+  "name": "software-mobile",
+  "main": "expo-router/entry",
+  "version": "1.0.0",
+  "dependencies": {
+    "@expo/material-symbols": "^0.1.1",
+    "@expo/ui": "~57.0.14",
+    "@legendapp/list": "^3.3.5",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@tanstack/query-async-storage-persister": "5.101.4",
+    "@tanstack/react-query": "^5.101.4",
+    "@tanstack/react-query-persist-client": "5.101.4",
+    "expo": "~57.0.18",
+    "expo-constants": "~57.0.16",
+    "expo-device": "~57.0.1",
+    "expo-font": "~57.0.2",
+    "expo-glass-effect": "~57.0.1",
+    "expo-image": "~57.0.3",
+    "expo-linking": "~57.0.8",
+    "expo-network": "~57.0.1",
+    "expo-router": "~57.0.17",
+    "expo-splash-screen": "~57.0.8",
+    "expo-status-bar": "~57.0.1",
+    "expo-symbols": "~57.0.2",
+    "expo-system-ui": "~57.0.3",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-enriched-markdown": "1.1.0-nightly-20260824-3de48e991",
+    "react-native-gesture-handler": "~2.32.0",
+    "react-native-reanimated": "4.5.1",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-web": "~0.21.0",
+    "react-native-worklets": "0.10.1"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "typescript": "~6.0.3"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "lint": "expo lint"
+  },
+  "private": true,
+  "trustedDependencies": [
+    "react-native-enriched-markdown"
+  ]
+}

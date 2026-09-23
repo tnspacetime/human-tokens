@@ -1,0 +1,639 @@
+{
+  "id": "1c6a591c-41f3-46de-a4d0-84fff6af831d",
+  "prevId": "556fa055-3bb3-4c2c-9ae3-98ece5fadd13",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.authoring_links": {
+      "name": "authoring_links",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "interview_id": {
+          "name": "interview_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "background_reading_id": {
+          "name": "background_reading_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "authoring_link_scope",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token_hash": {
+          "name": "token_hash",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_token": {
+          "name": "raw_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revoked_at": {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submitted_at": {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "authoring_links_interview_id_idx": {
+          "name": "authoring_links_interview_id_idx",
+          "columns": [
+            {
+              "expression": "interview_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "authoring_links_background_reading_id_idx": {
+          "name": "authoring_links_background_reading_id_idx",
+          "columns": [
+            {
+              "expression": "background_reading_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "authoring_links_expires_at_idx": {
+          "name": "authoring_links_expires_at_idx",
+          "columns": [
+            {
+              "expression": "expires_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "authoring_links_one_active_scope_per_interview_idx": {
+          "name": "authoring_links_one_active_scope_per_interview_idx",
+          "columns": [
+            {
+              "expression": "interview_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "scope",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"authoring_links\".\"interview_id\" IS NOT NULL AND \"authoring_links\".\"revoked_at\" IS NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "authoring_links_one_active_scope_per_background_idx": {
+          "name": "authoring_links_one_active_scope_per_background_idx",
+          "columns": [
+            {
+              "expression": "background_reading_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "scope",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"authoring_links\".\"background_reading_id\" IS NOT NULL AND \"authoring_links\".\"revoked_at\" IS NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "authoring_links_interview_id_interviews_id_fk": {
+          "name": "authoring_links_interview_id_interviews_id_fk",
+          "tableFrom": "authoring_links",
+          "tableTo": "interviews",
+          "columnsFrom": [
+            "interview_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "authoring_links_background_reading_id_background_readings_id_fk": {
+          "name": "authoring_links_background_reading_id_background_readings_id_fk",
+          "tableFrom": "authoring_links",
+          "tableTo": "background_readings",
+          "columnsFrom": [
+            "background_reading_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "authoring_links_token_hash_unique": {
+          "name": "authoring_links_token_hash_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token_hash"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "authoring_links_exactly_one_target": {
+          "name": "authoring_links_exactly_one_target",
+          "value": "(\"authoring_links\".\"interview_id\" IS NOT NULL AND \"authoring_links\".\"background_reading_id\" IS NULL) OR (\"authoring_links\".\"interview_id\" IS NULL AND \"authoring_links\".\"background_reading_id\" IS NOT NULL)"
+        },
+        "authoring_links_guest_targets_interview": {
+          "name": "authoring_links_guest_targets_interview",
+          "value": "\"authoring_links\".\"scope\" <> 'guest' OR \"authoring_links\".\"interview_id\" IS NOT NULL"
+        },
+        "authoring_links_sha256_length": {
+          "name": "authoring_links_sha256_length",
+          "value": "octet_length(\"authoring_links\".\"token_hash\") = 32"
+        },
+        "authoring_links_expiry_after_creation": {
+          "name": "authoring_links_expiry_after_creation",
+          "value": "\"authoring_links\".\"expires_at\" > \"authoring_links\".\"created_at\""
+        },
+        "authoring_links_revocation_after_creation": {
+          "name": "authoring_links_revocation_after_creation",
+          "value": "\"authoring_links\".\"revoked_at\" IS NULL OR \"authoring_links\".\"revoked_at\" >= \"authoring_links\".\"created_at\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.background_readings": {
+      "name": "background_readings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "content_markdown": {
+          "name": "content_markdown",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "status": {
+          "name": "status",
+          "type": "background_reading_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "publication_date": {
+          "name": "publication_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "background_readings_published_publication_date_idx": {
+          "name": "background_readings_published_publication_date_idx",
+          "columns": [
+            {
+              "expression": "publication_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "where": "\"background_readings\".\"status\" = 'published'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "background_readings_published_title_required": {
+          "name": "background_readings_published_title_required",
+          "value": "\"background_readings\".\"status\" <> 'published' OR char_length(btrim(\"background_readings\".\"title\")) > 0"
+        },
+        "background_readings_published_summary_required": {
+          "name": "background_readings_published_summary_required",
+          "value": "\"background_readings\".\"status\" <> 'published' OR char_length(btrim(\"background_readings\".\"summary\")) > 0"
+        },
+        "background_readings_published_date_required": {
+          "name": "background_readings_published_date_required",
+          "value": "\"background_readings\".\"status\" <> 'published' OR \"background_readings\".\"publication_date\" IS NOT NULL"
+        },
+        "background_readings_published_content_required": {
+          "name": "background_readings_published_content_required",
+          "value": "\"background_readings\".\"status\" <> 'published' OR char_length(btrim(\"background_readings\".\"content_markdown\")) > 0"
+        },
+        "background_readings_updated_after_created": {
+          "name": "background_readings_updated_after_created",
+          "value": "\"background_readings\".\"updated_at\" >= \"background_readings\".\"created_at\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.guests": {
+      "name": "guests",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "guests_name_idx": {
+          "name": "guests_name_idx",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "guests_name_not_blank": {
+          "name": "guests_name_not_blank",
+          "value": "char_length(btrim(\"guests\".\"name\")) > 0"
+        },
+        "guests_description_not_blank": {
+          "name": "guests_description_not_blank",
+          "value": "char_length(btrim(\"guests\".\"description\")) > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.interviews": {
+      "name": "interviews",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "guest_id": {
+          "name": "guest_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "background_reading_id": {
+          "name": "background_reading_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "portrait_image_id": {
+          "name": "portrait_image_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "content_markdown": {
+          "name": "content_markdown",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "status": {
+          "name": "status",
+          "type": "interview_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "publication_date": {
+          "name": "publication_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "interviews_guest_id_idx": {
+          "name": "interviews_guest_id_idx",
+          "columns": [
+            {
+              "expression": "guest_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "interviews_background_reading_id_idx": {
+          "name": "interviews_background_reading_id_idx",
+          "columns": [
+            {
+              "expression": "background_reading_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "interviews_published_publication_date_idx": {
+          "name": "interviews_published_publication_date_idx",
+          "columns": [
+            {
+              "expression": "publication_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "where": "\"interviews\".\"status\" = 'published'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "interviews_guest_id_guests_id_fk": {
+          "name": "interviews_guest_id_guests_id_fk",
+          "tableFrom": "interviews",
+          "tableTo": "guests",
+          "columnsFrom": [
+            "guest_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "interviews_background_reading_id_background_readings_id_fk": {
+          "name": "interviews_background_reading_id_background_readings_id_fk",
+          "tableFrom": "interviews",
+          "tableTo": "background_readings",
+          "columnsFrom": [
+            "background_reading_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "interviews_public_id_unique": {
+          "name": "interviews_public_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "public_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "interviews_public_id_format": {
+          "name": "interviews_public_id_format",
+          "value": "char_length(\"interviews\".\"public_id\") >= 22 AND \"interviews\".\"public_id\" ~ '^[A-Za-z0-9_-]+$'"
+        },
+        "interviews_published_title_required": {
+          "name": "interviews_published_title_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR char_length(btrim(\"interviews\".\"title\")) > 0"
+        },
+        "interviews_published_summary_required": {
+          "name": "interviews_published_summary_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR char_length(btrim(\"interviews\".\"summary\")) > 0"
+        },
+        "interviews_published_date_required": {
+          "name": "interviews_published_date_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR \"interviews\".\"publication_date\" IS NOT NULL"
+        },
+        "interviews_published_content_required": {
+          "name": "interviews_published_content_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR char_length(btrim(\"interviews\".\"content_markdown\")) > 0"
+        },
+        "interviews_published_guest_required": {
+          "name": "interviews_published_guest_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR \"interviews\".\"guest_id\" IS NOT NULL"
+        },
+        "interviews_updated_after_created": {
+          "name": "interviews_updated_after_created",
+          "value": "\"interviews\".\"updated_at\" >= \"interviews\".\"created_at\""
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.authoring_link_scope": {
+      "name": "authoring_link_scope",
+      "schema": "public",
+      "values": [
+        "draft",
+        "guest"
+      ]
+    },
+    "public.background_reading_status": {
+      "name": "background_reading_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "ready",
+        "published"
+      ]
+    },
+    "public.interview_status": {
+      "name": "interview_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "ready",
+        "invited",
+        "submitted",
+        "published",
+        "archived"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

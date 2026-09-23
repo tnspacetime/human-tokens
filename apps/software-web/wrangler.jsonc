@@ -1,0 +1,51 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "human-tokens-software",
+	"main": "@tanstack/react-start/server-entry",
+	"compatibility_date": "2026-08-14",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"secrets": {
+		"required": [
+			"CURATION_API_TOKEN",
+			"DATABASE_URL"
+		]
+	},
+	"routes": [
+		{
+			"pattern": "software.human-tokens.dev",
+			"custom_domain": true
+		}
+	],
+	"cache": {
+		"enabled": true
+	},
+	"ai": {
+		"binding": "AI",
+		"remote": true
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"kv_namespaces": [
+		{
+			"binding": "HUMAN_TOKENS_SOFTWARE_LATEST",
+			"id": "63379839389947ce91d66e4b74cf7b43",
+			"remote": true
+		},
+		{
+			"binding": "HUMAN_TOKENS_SOFTWARE_EXTRAS",
+			"id": "733e6674c1fb48a883cf7aeab8376ac2",
+			"remote": true
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "HUMAN_TOKENS_SOFTWARE_MEDIA",
+			"bucket_name": "human-tokens-software-media",
+			"remote": true
+		}
+	]
+}

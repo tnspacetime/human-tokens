@@ -1,0 +1,12 @@
+export const CONTRIBUTION_RESPONSE_HEADERS = {
+	"Cache-Control": "no-store",
+	"Cloudflare-CDN-Cache-Control": "no-store",
+	"Referrer-Policy": "no-referrer",
+	Vary: "Cookie",
+	"X-Robots-Tag": "noindex, nofollow",
+} as const;
+
+export const CONTRIBUTION_UNAVAILABLE_HEADERS = {
+	...CONTRIBUTION_RESPONSE_HEADERS,
+	"Content-Type": "text/html; charset=utf-8",
+} as const;

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+
+# Local workflow notes
+/LOCAL_FLOW_TESTING.md

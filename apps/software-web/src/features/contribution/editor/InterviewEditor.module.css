@@ -1,0 +1,295 @@
+.root {
+	--editor-syntax-invalid: #b42318;
+	--editor-syntax-keyword: #7b2cbf;
+	--editor-syntax-name: #005cc5;
+	--editor-syntax-number: #006b5e;
+	--editor-syntax-operator: #5a5a60;
+	--editor-syntax-string: #a6381b;
+	--editor-syntax-type: #7a4900;
+	--editor-question: #ff9500;
+
+	background: var(--surface-strong);
+}
+
+:global(.dark) .root {
+	--editor-syntax-invalid: #ff7b72;
+	--editor-syntax-keyword: #d2a8ff;
+	--editor-syntax-name: #a5d6ff;
+	--editor-syntax-number: #79c0ff;
+	--editor-syntax-operator: #c9d1d9;
+	--editor-syntax-string: #ffa657;
+	--editor-syntax-type: #7ee787;
+}
+
+.root :global(.ProseMirror) {
+	box-sizing: border-box;
+	width: min(100%, 40rem);
+	min-height: 44rem;
+	margin: 0 auto;
+	padding: clamp(3.5rem, 7vw, 5rem) clamp(2rem, 6vw, 3rem) 9rem;
+	color: var(--sea-ink);
+	font-size: clamp(1rem, 1.3vw, 1.06rem);
+	line-height: 1.65;
+	letter-spacing: -0.01em;
+	outline: none;
+	caret-color: var(--lagoon-deep);
+}
+
+.root :global(.ProseMirror[data-editor-mode="summary"]) {
+	width: 100%;
+	min-height: 8rem;
+	margin: 0;
+	padding: 1rem;
+	font-size: 0.95rem;
+	line-height: 1.5;
+}
+
+.root[data-editor-mode="summary"]:focus-within {
+	box-shadow: inset 0 0 0 2px color-mix(in srgb, #0071e3 20%, transparent);
+}
+
+.root :global(.ProseMirror) > :first-child {
+	margin-top: 0;
+}
+
+.root :global(.ProseMirror) > :last-child {
+	margin-bottom: 0;
+}
+
+.root :global(.ProseMirror) :is(h1, h2, h3, h4, h5, h6) {
+	color: var(--sea-ink);
+	font-weight: 600;
+	letter-spacing: -0.025em;
+}
+
+.root :global(.ProseMirror) h1 {
+	margin: 3rem 0 0.85rem;
+	font-size: clamp(1.75rem, 4vw, 2.25rem);
+	line-height: 1.08;
+	letter-spacing: -0.04em;
+}
+
+.root :global(.ProseMirror) h2 {
+	margin: 2.5rem 0 0.75rem;
+	font-size: clamp(1.4rem, 3.2vw, 1.75rem);
+	line-height: 1.15;
+	letter-spacing: -0.03em;
+}
+
+.root :global(.ProseMirror) h3 {
+	margin: 2.15rem 0 0.7rem;
+	font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+	line-height: 1.2;
+}
+
+.root :global(.ProseMirror) h4 {
+	margin: 1.85rem 0 0.6rem;
+	font-size: 1.05rem;
+	line-height: 1.25;
+}
+
+.root :global(.ProseMirror) h5 {
+	margin: 1.6rem 0 0.55rem;
+	font-size: 0.95rem;
+	line-height: 1.3;
+}
+
+.root :global(.ProseMirror) h6 {
+	margin: 1.4rem 0 0.5rem;
+	color: var(--sea-ink-soft);
+	font-size: 0.85rem;
+	line-height: 1.35;
+}
+
+.root :global(.ProseMirror h1[data-interview-question]) {
+	color: var(--editor-question);
+}
+
+.root
+	:global(.ProseMirror[data-editor-mode="draft"] h1[data-interview-question]) {
+	cursor: text;
+}
+
+.root
+	:global(
+		.ProseMirror[data-editor-mode="draft"]
+		h1[data-interview-question]:empty::before
+	) {
+	color: var(--sea-ink-soft);
+	content: "Type a question…";
+	pointer-events: none;
+}
+
+.root
+	:global(.ProseMirror[data-editor-mode="guest"] h1[data-interview-question]) {
+	cursor: default;
+}
+
+.root :global(.ProseMirror) p {
+	min-height: 1.65em;
+	margin: 0.75rem 0;
+}
+
+.root :global(.ProseMirror) blockquote {
+	margin: 1.8rem 0;
+	border-left: 3px solid var(--sea-ink);
+	padding-left: 0.85rem;
+	color: var(--sea-ink);
+	font-style: italic;
+	letter-spacing: -0.015em;
+}
+
+.root :global(.ProseMirror) ul,
+.root :global(.ProseMirror) ol {
+	margin: 1.25rem 0;
+	padding-left: 1.65rem;
+}
+
+.root :global(.ProseMirror) ul {
+	list-style: disc;
+}
+
+.root :global(.ProseMirror) ol {
+	list-style: decimal;
+}
+
+.root :global(.ProseMirror) li + li {
+	margin-top: 0.4rem;
+}
+
+.root :global(.ProseMirror) a {
+	color: var(--lagoon-deep);
+	text-decoration: underline;
+	text-decoration-thickness: 0.07em;
+	text-underline-offset: 0.15em;
+}
+
+.root :global(.ProseMirror) code:not(pre code) {
+	border: 1px solid var(--line);
+	background: color-mix(in srgb, var(--sea-ink) 5%, transparent);
+	color: var(--sea-ink);
+}
+
+.root :global(.ProseMirror) pre {
+	overflow-x: auto;
+	margin: 1.75rem 0;
+	border: 1px solid var(--line);
+	border-radius: 0.5rem;
+	background: color-mix(in srgb, var(--surface-strong) 98%, var(--sea-ink));
+	padding: 1.2rem 1.35rem;
+	font-size: 0.9em;
+	line-height: 1.65;
+}
+
+.root :global(.ProseMirror) pre code {
+	border: 0;
+	background: transparent;
+	padding: 0;
+}
+
+.root :global([data-code-block-editor]) {
+	overflow: hidden;
+	margin: 1.75rem 0;
+	border: 1px solid var(--line);
+	border-radius: 0.5rem;
+	background: color-mix(in srgb, var(--surface-strong) 98%, var(--sea-ink));
+	color: var(--sea-ink);
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		monospace;
+	font-size: 0.9em;
+}
+
+.root :global([data-code-block-editor].cm-focused) {
+	outline: none;
+}
+
+.root :global([data-code-block-editor] .cm-scroller) {
+	font-family: inherit;
+	line-height: 1.65;
+}
+
+.root :global([data-code-block-editor] .cm-content) {
+	padding: 1rem 0;
+}
+
+.root :global([data-code-block-editor] .cm-line) {
+	padding: 0 1.25rem;
+}
+
+.root :global([data-code-block-editor] .cm-activeLine) {
+	background: color-mix(in srgb, var(--lagoon) 10%, transparent);
+}
+
+.root :global([data-code-block-editor] .cm-selectionBackground) {
+	background: color-mix(in srgb, var(--lagoon) 24%, transparent);
+}
+
+.root :global([data-math-node]) {
+	cursor: default;
+}
+
+.root :global([data-math-node="inline"]) {
+	display: inline-block;
+	padding: 0 0.12rem;
+	vertical-align: baseline;
+}
+
+.root :global([data-math-node="block"]) {
+	overflow-x: auto;
+	margin: 2rem 0;
+	padding: 1.25rem 0.5rem;
+	text-align: center;
+}
+
+.root :global([data-math-node].ProseMirror-selectednode) {
+	outline: none;
+}
+
+.root :global([data-math-input]) {
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid var(--line);
+	border-radius: 0.35rem;
+	background: var(--surface-strong);
+	padding: 0.7rem 0.8rem;
+	color: var(--sea-ink);
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		monospace;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	outline: none;
+}
+
+.root :global([data-math-input]:focus) {
+	border-color: var(--lagoon-deep);
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--lagoon) 18%, transparent);
+}
+
+.root :global(textarea[data-math-input]) {
+	min-height: 6rem;
+	resize: vertical;
+}
+
+.root :global(.ProseMirror) hr {
+	margin: 2.75rem 0;
+	border: 0;
+	border-top: 1px solid var(--line);
+}
+
+.root :global(.ProseMirror) ::selection {
+	background: color-mix(in srgb, var(--lagoon) 24%, transparent);
+}
+
+@media (max-width: 639px) {
+	.root :global(.ProseMirror) {
+		min-height: 38rem;
+		padding: 3rem 1.5rem 6rem;
+	}
+
+	.root :global(.ProseMirror[data-editor-mode="summary"]) {
+		min-height: 8rem;
+		padding: 1rem;
+	}
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "authoring_links" ADD COLUMN "raw_token" text;

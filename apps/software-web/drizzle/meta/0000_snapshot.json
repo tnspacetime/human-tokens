@@ -1,0 +1,486 @@
+{
+  "id": "d9ff6834-2f2f-4c6c-b922-d9dad90cdcb0",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.background_readings": {
+      "name": "background_readings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "interview_id": {
+          "name": "interview_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_markdown": {
+          "name": "content_markdown",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "status": {
+          "name": "status",
+          "type": "background_reading_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "background_readings_interview_id_interviews_id_fk": {
+          "name": "background_readings_interview_id_interviews_id_fk",
+          "tableFrom": "background_readings",
+          "tableTo": "interviews",
+          "columnsFrom": [
+            "interview_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "background_readings_interview_id_unique": {
+          "name": "background_readings_interview_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "interview_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "background_readings_published_content_required": {
+          "name": "background_readings_published_content_required",
+          "value": "\"background_readings\".\"status\" <> 'published' OR char_length(btrim(\"background_readings\".\"content_markdown\")) > 0"
+        },
+        "background_readings_updated_after_created": {
+          "name": "background_readings_updated_after_created",
+          "value": "\"background_readings\".\"updated_at\" >= \"background_readings\".\"created_at\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.guests": {
+      "name": "guests",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "guests_name_idx": {
+          "name": "guests_name_idx",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "guests_name_not_blank": {
+          "name": "guests_name_not_blank",
+          "value": "char_length(btrim(\"guests\".\"name\")) > 0"
+        },
+        "guests_description_not_blank": {
+          "name": "guests_description_not_blank",
+          "value": "char_length(btrim(\"guests\".\"description\")) > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.interviews": {
+      "name": "interviews",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "guest_id": {
+          "name": "guest_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_markdown": {
+          "name": "content_markdown",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "status": {
+          "name": "status",
+          "type": "interview_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "publication_date": {
+          "name": "publication_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "interviews_guest_id_idx": {
+          "name": "interviews_guest_id_idx",
+          "columns": [
+            {
+              "expression": "guest_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "interviews_published_publication_date_idx": {
+          "name": "interviews_published_publication_date_idx",
+          "columns": [
+            {
+              "expression": "publication_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "where": "\"interviews\".\"status\" = 'published'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "interviews_guest_id_guests_id_fk": {
+          "name": "interviews_guest_id_guests_id_fk",
+          "tableFrom": "interviews",
+          "tableTo": "guests",
+          "columnsFrom": [
+            "guest_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "interviews_public_id_unique": {
+          "name": "interviews_public_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "public_id"
+          ]
+        },
+        "interviews_publication_date_unique": {
+          "name": "interviews_publication_date_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "publication_date"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "interviews_public_id_format": {
+          "name": "interviews_public_id_format",
+          "value": "char_length(\"interviews\".\"public_id\") >= 22 AND \"interviews\".\"public_id\" ~ '^[A-Za-z0-9_-]+$'"
+        },
+        "interviews_title_not_blank": {
+          "name": "interviews_title_not_blank",
+          "value": "char_length(btrim(\"interviews\".\"title\")) > 0"
+        },
+        "interviews_summary_not_blank": {
+          "name": "interviews_summary_not_blank",
+          "value": "char_length(btrim(\"interviews\".\"summary\")) > 0"
+        },
+        "interviews_published_date_required": {
+          "name": "interviews_published_date_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR \"interviews\".\"publication_date\" IS NOT NULL"
+        },
+        "interviews_published_content_required": {
+          "name": "interviews_published_content_required",
+          "value": "\"interviews\".\"status\" <> 'published' OR char_length(btrim(\"interviews\".\"content_markdown\")) > 0"
+        },
+        "interviews_updated_after_created": {
+          "name": "interviews_updated_after_created",
+          "value": "\"interviews\".\"updated_at\" >= \"interviews\".\"created_at\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.submission_links": {
+      "name": "submission_links",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "interview_id": {
+          "name": "interview_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token_hash": {
+          "name": "token_hash",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revoked_at": {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "submission_links_interview_id_idx": {
+          "name": "submission_links_interview_id_idx",
+          "columns": [
+            {
+              "expression": "interview_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "submission_links_expires_at_idx": {
+          "name": "submission_links_expires_at_idx",
+          "columns": [
+            {
+              "expression": "expires_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "submission_links_one_active_per_interview_idx": {
+          "name": "submission_links_one_active_per_interview_idx",
+          "columns": [
+            {
+              "expression": "interview_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"submission_links\".\"revoked_at\" IS NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "submission_links_interview_id_interviews_id_fk": {
+          "name": "submission_links_interview_id_interviews_id_fk",
+          "tableFrom": "submission_links",
+          "tableTo": "interviews",
+          "columnsFrom": [
+            "interview_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "submission_links_token_hash_unique": {
+          "name": "submission_links_token_hash_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token_hash"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "submission_links_sha256_length": {
+          "name": "submission_links_sha256_length",
+          "value": "octet_length(\"submission_links\".\"token_hash\") = 32"
+        },
+        "submission_links_expiry_after_creation": {
+          "name": "submission_links_expiry_after_creation",
+          "value": "\"submission_links\".\"expires_at\" > \"submission_links\".\"created_at\""
+        },
+        "submission_links_revocation_after_creation": {
+          "name": "submission_links_revocation_after_creation",
+          "value": "\"submission_links\".\"revoked_at\" IS NULL OR \"submission_links\".\"revoked_at\" >= \"submission_links\".\"created_at\""
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.background_reading_status": {
+      "name": "background_reading_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published"
+      ]
+    },
+    "public.interview_status": {
+      "name": "interview_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "invited",
+        "submitted",
+        "published",
+        "archived"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
