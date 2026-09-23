@@ -53,7 +53,7 @@ export default function GuestsPage({
 								{guestItems.map((guest) => (
 									<li
 										key={guest.id}
-										className="py-4 text-[1.25rem] leading-6.5 font-semibold tracking-[-0.021875rem] text-(--sea-ink) sm:p-0 sm:text-[clamp(1.05rem,1.8vw,1.3rem)] sm:leading-tight sm:font-medium sm:tracking-tight"
+										className="py-2 text-[1.25rem] leading-6.5 font-semibold tracking-[-0.021875rem] text-(--sea-ink) sm:p-0 sm:text-[clamp(1.05rem,1.8vw,1.3rem)] sm:leading-tight sm:font-medium sm:tracking-tight"
 									>
 										{guest.name}
 									</li>
