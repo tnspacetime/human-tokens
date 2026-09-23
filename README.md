@@ -3,6 +3,8 @@
 Human Tokens is a collection of apps for publishing and reading interviews.
 Each app manages its own Bun dependencies and lockfile; the repository root is not a Bun workspace.
 
+Read [how the site is built](https://tnspacetime.com/posts/human-tokens).
+
 | Directory | Purpose |
 | --- | --- |
 | `apps/software-web` | Software interview website, public API, and protected curation API |
