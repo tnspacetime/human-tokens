@@ -20,7 +20,9 @@ Start with the README in the app you want to run. Local credentials belong in `.
 
 ### Mobile app
 
-Copy simulator screenshots into [`screenshots/mobile/`](screenshots/mobile/). Once the images are there, they can be added to this README.
+| Interview | Background reading |
+| :---: | :---: |
+| <img src="screenshots/mobile/s1.png" alt="Interview in the mobile app" width="280"> | <img src="screenshots/mobile/s2.png" alt="Background reading in the mobile app" width="280"> |
 
 ## License
 
