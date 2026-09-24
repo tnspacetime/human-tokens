@@ -14,9 +14,17 @@ Read [how the site is built](https://tnspacetime.com/posts/human-tokens).
 
 Start with the README in the app you want to run. Local credentials belong in `.env.local` and are excluded from Git. The example environment files contain placeholders only.
 
+## How it works
+
+[`apps/software-web`](apps/software-web) is built with TanStack Start and runs as a Cloudflare Worker. It renders the website and serves the public API that the Expo mobile app uses to read interviews, guests, portraits, and the latest publication. The curation CLI calls the protected admin API to create drafts, manage guests, and publish content.
+
+Guests answer through private invitation links. They can write in a ProseMirror editor or record an answer. For live transcription, the browser streams audio over a WebSocket to the Worker, which uses Workers AI's `@cf/deepgram/nova-3` model and sends the transcript back. The recording stays temporarily in the browser; it is not stored on the server.
+
+Opening a draft or guest invitation sets a secure, HTTP-only cookie for that link. The editors save text through TanStack Start server functions; the named HTTP routes are listed below.
+
 ## Endpoint structure
 
-[`apps/software-web`](apps/software-web) serves these routes at [software.human-tokens.dev](https://software.human-tokens.dev). The web editors also use TanStack Start server functions; those internal calls are not separate named API routes.
+[`apps/software-web`](apps/software-web) serves these routes at [software.human-tokens.dev](https://software.human-tokens.dev).
 
 ### Website pages
 
