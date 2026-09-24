@@ -94,6 +94,15 @@ These routes require the curation bearer token used by [`apps/curation-cli`](app
 | :---: | :---: |
 | <img src="screenshots/mobile/s1.png" alt="Interview in the mobile app" width="280"> | <img src="screenshots/mobile/s2.png" alt="Background reading in the mobile app" width="280"> |
 
+## Published interviews
+
+Each interview page includes its companion background reading.
+
+| Published | Interview |
+| --- | --- |
+| 2026-09-23 | [An Interview with Jev](https://software.human-tokens.dev/i/itO5CK9gyuMpKPGlU9zFjQ) |
+| 2026-09-09 | [What is Human Tokens?](https://software.human-tokens.dev/i/VmbUmtTVCpqLkzXrMB7i2Q) |
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
