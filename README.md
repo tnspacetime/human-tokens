@@ -16,7 +16,7 @@ Start with the README in the app you want to run. Local credentials belong in `.
 
 ## Endpoint structure
 
-[`apps/software-web`](apps/software-web) serves these routes at [software.human-tokens.dev](https://software.human-tokens.dev). The web editors also use TanStack Start server functions; those internal calls are not separate named API routes. Parameters are shown with a leading `:`.
+[`apps/software-web`](apps/software-web) serves these routes at [software.human-tokens.dev](https://software.human-tokens.dev). The web editors also use TanStack Start server functions; those internal calls are not separate named API routes.
 
 ### Website pages
 
